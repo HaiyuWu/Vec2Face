@@ -69,6 +69,12 @@ hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="hsfaces/hsface20k.lmdb", 
 ```
 
 # ⚡Image Generation
+Before generating images, the identity vectors need to be created/calculated and saved in a .npy file. We provide an example for you, but you can create your own center features.  
+```python
+from huggingface_hub import hf_hub_download
+hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="center_feature_examples.npy", local_dir="./")
+```
+
 Image generation with sampled identity features:
 ```python
 python image_generation.py \
@@ -77,7 +83,7 @@ python image_generation.py \
 --example 1 \
 --start_end 0:10 \
 --name test \
---center_feature center_features.npy
+--center_feature center_feature_examples.npy
 ```
 Image generation with target yaw angle:
 ```python
@@ -86,7 +92,7 @@ python pose_image_generation.py \
 --batch_size 5 \
 --example 1 \
 --start_end 0:10 \
---center_feature center_features.npy \
+--center_feature center_feature_examples.npy \
 --name test \
 --pose 45 \
 --image_quality 25
