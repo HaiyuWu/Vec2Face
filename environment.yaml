@@ -1,0 +1,21 @@
+name: vec2face
+channels:
+  - pytorch
+  - defaults
+dependencies:
+  - numpy=1.24.3
+  - pip=24.2
+  - python=3.8.5
+  - pytorch=1.12.0
+  - torchvision=0.13.0
+  - cudatoolkit=11.3
+  - pip:
+    - imageio==2.9.0
+    - lmdb==1.0.0
+    - msgpack==1.0.1
+    - omegaconf==2.1.1
+    - pytorch-msssim==1.0.0
+    - scipy==1.10.1
+    - sixdrepnet==0.1.6
+    - tensorboard==2.13.0
+    - timm==0.9.16
