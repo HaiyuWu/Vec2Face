@@ -45,7 +45,7 @@ hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="weights/arcface-r100-glin
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="weights/magface-r100-glint360k.pth", local_dir="./")
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="weights/vec2face_generator.pth", local_dir="./")
 ```
-2) The weights of the FR models trained with HSFace (10k, 20k, 100k, 200k) can be downloaded manually from  [HuggingFace](https://huggingface.co/BooBooWu/Vec2Face) or using python:
+2) The weights of the FR models trained with HSFace (10k, 20k, 100k, 200k) can be downloaded using python:
 ```python
 from huggingface_hub import hf_hub_download
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="fr_weights/hsface10k.pth", local_dir="./")
@@ -61,7 +61,7 @@ from huggingface_hub import hf_hub_download
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="lmdb_dataset/WebFace4M/WebFace4M.lmdb", local_dir="./")
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="lmdb_dataset/WebFace4M/50000_ids_1022444_ims.npy", local_dir="./")
 ```
-2) The generated synthetic datasets (HSFace10k and HSFace20k for now) can be downloaded manually from  [HuggingFace](https://huggingface.co/BooBooWu/Vec2Face) or using python:
+2) The **generated synthetic datasets** (HSFace10k and HSFace20k for now) can be downloaded using python:
 ```python
 from huggingface_hub import hf_hub_download
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="hsfaces/hsface10k.lmdb", local_dir="./")
