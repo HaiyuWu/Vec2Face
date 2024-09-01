@@ -26,7 +26,7 @@ This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/ve
 &emsp;✅ that can easily scale the dataset size to 10M<br>
 
 [//]: # (TODO)
-<img src='assets/teaser_figure.png'>
+<img src='asset/teaser_figure.png'>
 
 # News/Updates
 - [2024/09/01] 🔥 We release Vec2Face!
@@ -94,8 +94,8 @@ python pose_image_generation.py \
 
 # Training
 ## Vec2Face training
-We only provide the WebFace4M dataset (see [here]()) and the mask that we used for training the model, if you want to use other datasets, please referring the 
-[prepare_training_set.py]() to convert the dataset to .lmdb.
+We only provide the WebFace4M dataset (see [here](https://github.com/HaiyuWu/vec2face?tab=readme-ov-file#download-datasets)) and the mask that we used for training the model, if you want to use other datasets, please referring the 
+[prepare_training_set.py](https://github.com/HaiyuWu/vec2face/blob/main/Scripts/prepare_training_set.py) to convert the dataset to .lmdb.
 Once the dataset is ready, modifying the following code to run the training:
 ```python
 torchrun --nproc_per_node=1 --node_rank=0 --master_addr="host_addr" --master_port=3333 vec2face.py \
@@ -128,8 +128,8 @@ transform = transforms.Compose(
 Please follow the guidance of [SOTA-Face-Recognition-Train-and-Test](https://github.com/HaiyuWu/SOTA-Face-Recognition-Train-and-Test) for the rest of training process.
 
 ## TODO
--[ ] HuggingFace demo
--[ ] 100k and 200k datasets
+- [ ] HuggingFace demo
+- [ ] 100k and 200k datasets
 
 # Acknowledgements
 - Thanks to the WebFace4M creators for providing such a high-quality facial dataset❤️.
