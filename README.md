@@ -23,13 +23,13 @@ This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/ve
 &emsp;✅ that generates face images purely based on the given image features<br>
 &emsp;✅ that achieves the state-of-the-art performance in five standard test sets among synthetic datasets<br>
 &emsp;✅ that first achieves higher accuracy than the same-scale real dataset (on CALFW)<br>
-&emsp;✅ that can easily scale the dataset size to 10M<br>
+&emsp;✅ that can easily scale the dataset size to 10M images from 200k identities<br>
 
 [//]: # (TODO)
 <img src='asset/architech.png'>
 
 # News/Updates
-- [2024/09/01] 🔥 We release Vec2Face!
+- [2024/09/01] 🔥 We release Vec2Face and HSFace datasets!
 
 # :wrench: Installation
 ```bash
@@ -37,7 +37,7 @@ conda env create -f environment.yaml
 ```
 
 # Download Model Weights
-1) The weights of the Vec2Face model and estimators can be downloaded manually from [HuggingFace](https://huggingface.co/BooBooWu/Vec2Face) or using python:
+1) The weights of the Vec2Face model and estimators used in this work can be manually from [HuggingFace](https://huggingface.co/BooBooWu/Vec2Face) or using python:
 ```python
 from huggingface_hub import hf_hub_download
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="weights/6DRepNet_300W_LP_AFLW2000.pth", local_dir="./")
@@ -76,7 +76,7 @@ hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="center_feature_examples.n
 ```
 
 Image generation with sampled identity features:
-```python
+```commandline
 python image_generation.py \
 --model_weights weights/vec2face_generator.pth \
 --batch_size 5 \
@@ -86,7 +86,7 @@ python image_generation.py \
 --center_feature center_feature_examples.npy
 ```
 Image generation with target yaw angle:
-```python
+```commandline
 python pose_image_generation.py \
 --model_weights weights/vec2face_generator.pth \
 --batch_size 5 \
@@ -103,7 +103,7 @@ python pose_image_generation.py \
 We only provide the WebFace4M dataset (see [here](https://github.com/HaiyuWu/vec2face?tab=readme-ov-file#download-datasets)) and the mask that we used for training the model, if you want to use other datasets, please referring the 
 [prepare_training_set.py](https://github.com/HaiyuWu/vec2face/blob/main/Scripts/prepare_training_set.py) to convert the dataset to .lmdb.
 Once the dataset is ready, modifying the following code to run the training:
-```python
+```commandline
 torchrun --nproc_per_node=1 --node_rank=0 --master_addr="host_addr" --master_port=3333 vec2face.py \
 --rep_drop_prob 0.1 \
 --use_rep \
