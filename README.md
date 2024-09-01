@@ -26,7 +26,7 @@ This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/ve
 &emsp;✅ that can easily scale the dataset size to 10M<br>
 
 [//]: # (TODO)
-<img src='asset/teaser_figure.png'>
+<img src='asset/architech.png'>
 
 # News/Updates
 - [2024/09/01] 🔥 We release Vec2Face!
