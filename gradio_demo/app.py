@@ -12,6 +12,8 @@ MAX_SEED = np.iinfo(np.int32).max
 import torch
 
 
+# change it to cuda for gpu
+device = torch.device('cpu')
 def sample_nearby_vectors(base_vector, epsilons=[0.3, 0.5, 0.7], percentages=[0.4, 0.4, 0.2]):
     row, col = base_vector.shape
     norm = torch.norm(base_vector, 2, 1, True)
@@ -27,7 +29,6 @@ def sample_nearby_vectors(base_vector, epsilons=[0.3, 0.5, 0.7], percentages=[0.
 
 
 def initialize_models():
-    device = torch.device('cpu')
     pose_model_weights = hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="weights/6DRepNet_300W_LP_AFLW2000.pth", local_dir="./")
     id_model_weights = hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="weights/arcface-r100-glint360k.pth", local_dir="./")
     quality_model_weights = hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="weights/magface-r100-glint360k.pth", local_dir="./")
@@ -84,14 +85,14 @@ def image_generation(input_image, quality, use_target_pose, pose, dimension):
             updated_feature = updated_feature / np.linalg.norm(updated_feature, 2, 1, True) * norm
 
             features.append(updated_feature)
-        features = torch.tensor(np.vstack(features)).float()
+        features = torch.tensor(np.vstack(features)).float().to(device)
         if quality > 25:
             images, _ = generator.gen_image(features, quality_model, id_model, q_target=quality)
         else:
             _, _, images, *_ = generator(features)
     else:
         features = torch.repeat_interleave(torch.tensor(feature), 6, dim=0)
-        features = sample_nearby_vectors(features, [0.7], [1]).float()
+        features = sample_nearby_vectors(features, [0.7], [1]).float().to(device)
         if quality > 25 or pose > 20:
             images, _ = generator.gen_image(features, quality_model, id_model, pose_model=pose_model,
                                             q_target=quality, pose=pose, class_rep=features)
