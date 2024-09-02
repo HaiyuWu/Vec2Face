@@ -13,7 +13,7 @@ import torch
 
 
 # change it to cuda for gpu
-device = torch.device('cpu')
+device = 'cuda'
 def sample_nearby_vectors(base_vector, epsilons=[0.3, 0.5, 0.7], percentages=[0.4, 0.4, 0.2]):
     row, col = base_vector.shape
     norm = torch.norm(base_vector, 2, 1, True)
@@ -71,7 +71,7 @@ def image_generation(input_image, quality, use_target_pose, pose, dimension):
         feature = np.random.normal(0, 1.0, (1, 512))
     else:
         input_image = np.transpose(input_image, (2, 0, 1))
-        input_image = torch.from_numpy(input_image).unsqueeze(0).float()
+        input_image = torch.from_numpy(input_image).unsqueeze(0).float().to(device)
         input_image.div_(255).sub_(0.5).div_(0.5)
         feature = id_model(input_image).clone().detach().cpu().numpy()
 
