@@ -3,7 +3,6 @@ import argparse
 import pixel_generator.vec2face.model_vec2face as model_vec2face
 import imageio
 from tqdm import tqdm
-import torch.optim as optim
 import numpy as np
 import os
 from models import iresnet

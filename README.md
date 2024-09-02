@@ -11,10 +11,10 @@
 <sup>3</sup>Indiana University South Bend
 
 [//]: # (TODO)
-[//]: # (<a href=''><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Demo-green'></a>)
 <a href='https://haiyuwu.github.io/vec2face.github.io/'><img src='https://img.shields.io/badge/Project-Page-blue'></a>
 <a href=''><img src='https://img.shields.io/badge/Paper-arXiv-red'></a>
 <a href='https://huggingface.co/BooBooWu/Vec2Face'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-orange'></a>
+<a href='https://huggingface.co/spaces/BooBooWu/Vec2Face'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Demo-green'></a>
 
 </div>
 
@@ -25,10 +25,11 @@ This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/ve
 &emsp;✅ that first achieves higher accuracy than the same-scale real dataset (on CALFW)<br>
 &emsp;✅ that can easily scale the dataset size to 10M images from 200k identities<br>
 
-[//]: # (TODO)
+
 <img src='asset/architech.png'>
 
 # News/Updates
+- [2024/09/02] 🔥 We release Vec2Face [demo](https://huggingface.co/spaces/BooBooWu/Vec2Face)!
 - [2024/09/01] 🔥 We release Vec2Face and HSFace datasets!
 
 # :wrench: Installation
@@ -134,7 +135,7 @@ transform = transforms.Compose(
 Please follow the guidance of [SOTA-Face-Recognition-Train-and-Test](https://github.com/HaiyuWu/SOTA-Face-Recognition-Train-and-Test) for the rest of training process.
 
 ## TODO
-- [ ] HuggingFace demo
+- [x] HuggingFace demo
 - [ ] 100k and 200k datasets
 
 # Acknowledgements

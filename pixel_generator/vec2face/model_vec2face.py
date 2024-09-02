@@ -203,6 +203,7 @@ class MaskedGenerativeEncoderViT(nn.Module):
 
     def forward_encoder(self, rep):
         # expand to feature map
+        device = rep.device
         encode_feature = self.latent_prior_proj_f(rep)
         feature_token = self.feature_token(encode_feature.unsqueeze(-1)).permute(0, 2, 1)
 
@@ -235,8 +236,8 @@ class MaskedGenerativeEncoderViT(nn.Module):
 
         # concatenate with image feature
         feature_token = torch.cat([encode_feature.unsqueeze(1), feature_token], dim=1)
-        token_drop_mask = torch.cat([torch.zeros(feature_token.size(0), 1).cuda(), token_drop_mask], dim=1)
-        token_all_mask = torch.cat([torch.zeros(feature_token.size(0), 1).cuda(), token_all_mask], dim=1)
+        token_drop_mask = torch.cat([torch.zeros(feature_token.size(0), 1).to(device), token_drop_mask], dim=1)
+        token_all_mask = torch.cat([torch.zeros(feature_token.size(0), 1).to(device), token_all_mask], dim=1)
 
         # bert embedding
         input_embeddings = self.token_emb(feature_token)
@@ -287,8 +288,8 @@ class MaskedGenerativeEncoderViT(nn.Module):
         return gt_indices, logits, image, last_layer, token_all_mask
 
     def gen_image(self, rep, quality_model, fr_model, pose_model=None, age_model=None, class_rep=None,
-                  num_iter=5, lr=1e-1, q_target=27, pose=60):
-        rep_copy = torch.tensor(rep.clone().detach(), requires_grad=True)
+                  num_iter=1, lr=1e-1, q_target=27, pose=60):
+        rep_copy = rep.clone().detach().requires_grad_(True)
         optm = optim.Adam([rep_copy], lr=lr)
 
         i = 0
@@ -317,9 +318,8 @@ class MaskedGenerativeEncoderViT(nn.Module):
                 yaw_loss = torch.abs(pose - torch.abs(pose_info[:, 1].clip(min=-90, max=90)))
                 pose_loss = torch.mean(yaw_loss)
             q_loss = torch.mean(q_loss)
-            if pose_loss > 5 or id_loss > 0.3 or q_loss > 1:
+            if pose_loss > 5 or id_loss > 0.4 or q_loss > 1:
                 i -= 1
-
             loss = id_loss * 100 + q_loss + pose_loss
             optm.zero_grad()
             loss.backward(retain_graph=True)
