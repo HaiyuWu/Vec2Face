@@ -135,7 +135,6 @@ transform = transforms.Compose(
 Please follow the guidance of [SOTA-Face-Recognition-Train-and-Test](https://github.com/HaiyuWu/SOTA-Face-Recognition-Train-and-Test) for the rest of training process.
 
 ## TODO
-- [x] HuggingFace demo
 - [ ] 100k and 200k datasets
 
 # Acknowledgements
