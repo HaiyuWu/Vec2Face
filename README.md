@@ -21,7 +21,7 @@
 This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/vec2face.github.io/)**, an ID and attribute controllable face dataset generation model:
 
 &emsp;✅ that generates face images purely based on the given image features<br>
-&emsp;✅ that achieves the state-of-the-art performance in five standard test sets among synthetic datasets<br>
+&emsp;✅ that achieves state-of-the-art performance in five standard test sets among synthetic datasets<br>
 &emsp;✅ that first achieves higher accuracy than the same-scale real dataset (on CALFW)<br>
 &emsp;✅ that can easily scale the dataset size to 10M images from 200k identities<br>
 

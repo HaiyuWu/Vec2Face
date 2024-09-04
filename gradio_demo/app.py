@@ -10,10 +10,28 @@ from sixdrepnet.model import SixDRepNet
 import pixel_generator.vec2face.model_vec2face as model_vec2face
 MAX_SEED = np.iinfo(np.int32).max
 import torch
+import spaces
+from time import time
 
 
-# change it to cuda for gpu
-device = 'cuda'
+device = "cuda"
+
+def clear_image():
+    return None
+
+
+def clear_generation_time():
+    return ""
+
+
+def generating():
+    return "Generating images..."
+
+
+def done():
+    return "Done!"
+
+
 def sample_nearby_vectors(base_vector, epsilons=[0.3, 0.5, 0.7], percentages=[0.4, 0.4, 0.2]):
     row, col = base_vector.shape
     norm = torch.norm(base_vector, 2, 1, True)
@@ -40,16 +58,16 @@ def initialize_models():
                                                 rep_drop_prob=0.,
                                                 use_class_label=False)
     generator = generator.to(device)
-    checkpoint = torch.load(generator_weights, map_location='cpu')
+    checkpoint = torch.load(generator_weights, map_location=device)
     generator.load_state_dict(checkpoint['model_vec2face'])
     generator.eval()
 
     id_model = iresnet("100", fp16=True).to(device)
-    id_model.load_state_dict(torch.load(id_model_weights, map_location='cpu'))
+    id_model.load_state_dict(torch.load(id_model_weights, map_location=device))
     id_model.eval()
 
     quality_model = iresnet("100", fp16=True).to(device)
-    quality_model.load_state_dict(torch.load(quality_model_weights, map_location='cpu'))
+    quality_model.load_state_dict(torch.load(quality_model_weights, map_location=device))
     quality_model.eval()
 
     pose_model = SixDRepNet(backbone_name='RepVGG-B1g2',
@@ -62,8 +80,8 @@ def initialize_models():
 
     return generator, id_model, pose_model, quality_model
 
-
-def image_generation(input_image, quality, use_target_pose, pose, dimension):
+@spaces.GPU
+def image_generation(input_image, quality, random_perturbation, sigma, dimension, progress=gr.Progress()):
     generator, id_model, pose_model, quality_model = initialize_models()
 
     generated_images = []
@@ -75,37 +93,35 @@ def image_generation(input_image, quality, use_target_pose, pose, dimension):
         input_image.div_(255).sub_(0.5).div_(0.5)
         feature = id_model(input_image).clone().detach().cpu().numpy()
 
-    if not use_target_pose:
+    if not random_perturbation:
         features = []
         norm = np.linalg.norm(feature, 2, 1, True)
-        for i in np.arange(0, 4.8, 0.8):
+        for i in progress.tqdm(np.arange(0, 4.8, 2), desc="Generating images"):
             updated_feature = feature
             updated_feature[0][dimension] = feature[0][dimension] + i
-
             updated_feature = updated_feature / np.linalg.norm(updated_feature, 2, 1, True) * norm
-
             features.append(updated_feature)
         features = torch.tensor(np.vstack(features)).float().to(device)
-        if quality > 25:
+        if quality > 22:
             images, _ = generator.gen_image(features, quality_model, id_model, q_target=quality)
         else:
             _, _, images, *_ = generator(features)
     else:
-        features = torch.repeat_interleave(torch.tensor(feature), 6, dim=0)
-        features = sample_nearby_vectors(features, [0.7], [1]).float().to(device)
-        if quality > 25 or pose > 20:
-            images, _ = generator.gen_image(features, quality_model, id_model, pose_model=pose_model,
-                                            q_target=quality, pose=pose, class_rep=features)
+        features = torch.repeat_interleave(torch.tensor(feature), 3, dim=0)
+        features = sample_nearby_vectors(features, [sigma], [1]).float().to(device)
+        if quality > 22:
+            images, _ = generator.gen_image(features, quality_model, id_model, q_target=quality, class_rep=features)
         else:
             _, _, images, *_ = generator(features)
 
-    images = ((images.permute(0, 2, 3, 1).detach().cpu().numpy() + 1) / 2 * 255).astype(np.uint8)
-    for image in images:
+    images = ((images.permute(0, 2, 3, 1).clip(-1, 1).detach().cpu().numpy() + 1) / 2 * 255).astype(np.uint8)
+    for image in progress.tqdm(images, desc="Processing images"):
         generated_images.append(Image.fromarray(image))
+
     return generated_images
 
-
-def process_input(image_input, num1, num2, num3, num4, random_seed, target_quality, use_target_pose, target_pose):
+@spaces.GPU
+def process_input(image_input, num1, num2, num3, num4, random_seed, target_quality, random_perturbation, sigma, progress=gr.Progress()):
     # Ensure all dimension numbers are within [0, 512)
     num1, num2, num3, num4 = [max(0, min(int(n), 511)) for n in [num1, num2, num3, num4]]
 
@@ -119,25 +135,27 @@ def process_input(image_input, num1, num2, num3, num4, random_seed, target_quali
         input_data = Image.open(image_input)
         input_data = np.array(input_data.resize((112, 112)))
 
-    generated_images = image_generation(input_data, target_quality, use_target_pose, target_pose, [num1, num2, num3, num4])
+    generated_images = image_generation(input_data, target_quality, random_perturbation, sigma, [num1, num2, num3, num4], progress)
 
     return generated_images
 
+
 def select_image(value, images):
     # Convert the float value (0 to 4) to an integer index (0 to 9)
-    index = int(value / 0.8)
+    index = int(value / 2)
     return images[index]
 
-def toggle_inputs(use_pose):
+def toggle_inputs(random_perturbation):
     return [
-        gr.update(visible=use_pose, interactive=use_pose),  # target_pose
-        gr.update(interactive=not use_pose),  # num1
-        gr.update(interactive=not use_pose),  # num2
-        gr.update(interactive=not use_pose),  # num3
-        gr.update(interactive=not use_pose),  # num4
+        gr.update(visible=random_perturbation, interactive=random_perturbation),  # sigma
+        gr.update(interactive=not random_perturbation),  # num1
+        gr.update(interactive=not random_perturbation),  # num2
+        gr.update(interactive=not random_perturbation),  # num3
+        gr.update(interactive=not random_perturbation),  # num4
     ]
 
 
+# 4. Since the demo is CPU-based, higher quality and larger pose need longer time to run.
 def main():
     with gr.Blocks() as demo:
         title = r"""
@@ -148,11 +166,10 @@ def main():
             <b>Official 🤗 Gradio demo</b> for <a href='https://github.com/HaiyuWu/vec2face' target='_blank'><b>Vec2Face: Scaling Face Dataset Generation with Loosely Constrained Vectors</b></a>.<br>
 
             How to use:<br>
-            1. Upload an image with a cropped face image or directly click <b>Submit</b> button, six images will be shown on the right. 
+            1. Upload an image with a cropped face image or directly click <b>Submit</b> button, three images will be shown on the right. 
             2. You can control the image quality, image pose, and modify the values in the target dimensions to change the output images. 
-            3. The output results will shown six results of dimension modification or pose images.
-            4. Since the demo is CPU-based, higher quality and larger pose need longer time to run.
-            5. Enjoy! 😊
+            3. The output results will shown three results of dimension modification or pose images.
+            4. Enjoy! 😊
             """
 
         gr.Markdown(title)
@@ -171,52 +188,76 @@ def main():
                     num2 = gr.Number(label="Dimension 2", value=0, minimum=0, maximum=511, step=1)
                     num3 = gr.Number(label="Dimension 3", value=0, minimum=0, maximum=511, step=1)
                     num4 = gr.Number(label="Dimension 4", value=0, minimum=0, maximum=511, step=1)
+                    # num5 = gr.Number(label="Dimension 5", value=0, minimum=0, maximum=511, step=1)
+                    # num6 = gr.Number(label="Dimension 6", value=0, minimum=0, maximum=511, step=1)
+                    # num7 = gr.Number(label="Dimension 7", value=0, minimum=0, maximum=511, step=1)
+                    # num8 = gr.Number(label="Dimension 8", value=0, minimum=0, maximum=511, step=1)
 
                 random_seed = gr.Number(label="Random Seed", value=42, minimum=0, maximum=MAX_SEED, step=1)
-                target_quality = gr.Slider(label="Minimum Quality", minimum=22, maximum=35, step=1, value=24)
+                target_quality = gr.Slider(label="Minimum Quality", minimum=22, maximum=30, step=1, value=22)
 
                 with gr.Row():
-                    use_target_pose = gr.Checkbox(label="Use Target Pose")
-                    target_pose = gr.Slider(label="Target Pose", value=0, minimum=0, maximum=90, step=1, visible=False)
+                    random_perturbation = gr.Checkbox(label="Random Perturbation")
+                    sigma = gr.Slider(label="Sigma value", value=0, minimum=0, maximum=1, step=0.1, visible=False)
 
                 submit = gr.Button("Submit", variant="primary")
 
                 gr.Markdown("""
                             ## Usage tips of Vec2Face
                             - Directly clicking "Submit" button will give you results from a randomly sampled vector. 
-                            - If you want to modify more dimensions, please write your own code. Code snippets in [Vec2Face repo](https://github.com/HaiyuWu/vec2face) might be helpful.
-                            - If you want to create extreme pose image (e.g., >70), please do not set image quality larger than 27.
-                            - <span style="color: red;">!</span> <span style="color: red;">!</span> <span style="color: red;">!</span> **Due to the limitation of SixDRepNet (pose estimator), pose editing results might be corrupted/incorrect. For better performance, you can integrade other pose estimators.** <span style="color: red;">!</span> <span style="color: red;">!</span> <span style="color: red;">!</span>
+                            - If you want to modify more dimensions or change attributes, Code snippets in [Vec2Face repo](https://github.com/HaiyuWu/vec2face) might be helpful.
                             - For better experience, we suggest you to run code on a GPU machine.
                             """)
 
             with gr.Column():
                 gallery = gr.Image(label="Generated Image")
+                generation_time = gr.Textbox(label="Generation Status")
                 incremental_value_slider = gr.Slider(
-                    label="Result of dimension modification or results of pose images",
-                    minimum=0, maximum=4, step=0.8, value=0
+                    label="Result of dimension modification or results of random perturbation",
+                    minimum=0, maximum=4, step=2, value=0
                 )
                 gr.Markdown("""
-                            - These values are added to the dimensions (before normalization), **please ignore it if pose editing is on**.
+                            - These values are added to the dimensions (before normalization), **please ignore it if random perturbation is on**.
                             """)
 
-        use_target_pose.change(
+        random_perturbation.change(
             fn=toggle_inputs,
-            inputs=[use_target_pose],
-            outputs=[target_pose, num1, num2, num3, num4]
+            inputs=[random_perturbation],
+            outputs=[sigma, num1, num2, num3, num4]
         )
 
         generated_images = gr.State([])
 
         submit.click(
+            fn=clear_image,
+            inputs=[],
+            outputs=[gallery]
+        ).then(
+            fn=generating,
+            inputs=[],
+            outputs=[generation_time]
+        ).then(
             fn=process_input,
-            inputs=[image_file, num1, num2, num3, num4, random_seed, target_quality, use_target_pose, target_pose],
+            inputs=[image_file, num1, num2, num3, num4, random_seed, target_quality, random_perturbation, sigma],
             outputs=[generated_images]
+        ).then(
+            fn=done,
+            inputs=[],
+            outputs=[generation_time]
         ).then(
             fn=select_image,
             inputs=[incremental_value_slider, generated_images],
             outputs=[gallery]
         )
+        # submit.click(
+        #     fn=process_input,
+        #     inputs=[image_file, num1, num2, num3, num4, random_seed, target_quality, use_target_pose, target_pose],
+        #     outputs=[generated_images]
+        # ).then(
+        #     fn=select_image,
+        #     inputs=[incremental_value_slider, generated_images],
+        #     outputs=[gallery]
+        # )
 
         incremental_value_slider.change(
             fn=select_image,
@@ -241,7 +282,7 @@ def main():
         """
         gr.Markdown(article)
 
-    demo.launch(share=True)
+    demo.launch()
 
 
 if __name__ == "__main__":
