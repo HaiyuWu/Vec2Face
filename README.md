@@ -146,9 +146,10 @@ Please follow the guidance of [SOTA-Face-Recognition-Train-and-Test](https://git
 If you find Vec2Face useful for your research, please consider citing us and starring😄:
 
 ```bibtex
-@misc{wu2024vec2face,
+@article{wu2024vec2face,
   title={Vec2Face: Scaling Face Dataset Generation with Loosely Constrained Vectors},
   author={Wu, Haiyu and Singh, Jaskirat and Tian, Sicong and Zheng, Liang and Bowyer, Kevin W.},
+  journal={arXiv preprint arXiv:2409.02979},
   year={2024}
 }
 ```
