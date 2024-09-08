@@ -17,9 +17,6 @@ def get_args_parser():
     parser.add_argument('--model', default='vec2face_vit_base_patch16', type=str, metavar='MODEL',
                         help='Name of model to train')
 
-    parser.add_argument('--input_size', default=112, type=int,
-                        help='images input size')
-
     # Pre-trained enc parameters
     parser.add_argument('--use_rep', action='store_false', help='use representation as condition.')
     parser.add_argument('--use_class_label', action='store_true', help='use class label as condition.')
@@ -123,7 +120,6 @@ if __name__ == '__main__':
     # id model
     fr_model = _create_fr_model("./weights/arcface-r100-glint360k.pth").to(device)
 
-    id_pool = []
     bs_factor = 1
     print(f"Use ID vectors from: {center_feature_file}")
     random_ids = easy_to_generate_id(center_feature_file)

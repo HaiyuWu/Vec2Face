@@ -303,7 +303,8 @@ class MaskedGenerativeEncoderViT(nn.Module):
                 id_loss = torch.mean(1 - torch.cosine_similarity(out_feature, rep))
             else:
                 distance = 1 - torch.cosine_similarity(out_feature, class_rep)
-                id_loss = torch.mean(torch.where(distance > 0.5, distance, torch.zeros_like(distance)))
+                # id_loss = torch.mean(torch.where(distance > 0.5, distance, torch.zeros_like(distance)))
+                id_loss = torch.mean(distance)
             quality = quality_model(image)
             norm = torch.norm(quality, 2, 1, True)
             q_loss = torch.where(norm < q_target, q_target - norm, torch.zeros_like(norm))
@@ -318,7 +319,7 @@ class MaskedGenerativeEncoderViT(nn.Module):
                 yaw_loss = torch.abs(pose - torch.abs(pose_info[:, 1].clip(min=-90, max=90)))
                 pose_loss = torch.mean(yaw_loss)
             q_loss = torch.mean(q_loss)
-            if pose_loss > 5 or id_loss > 0.4 or q_loss > 1:
+            if pose_loss > 5 or id_loss > 0.3 or q_loss > 1:
                 i -= 1
             loss = id_loss * 100 + q_loss + pose_loss
             optm.zero_grad()
