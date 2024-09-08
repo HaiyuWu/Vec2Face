@@ -36,6 +36,7 @@ This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/ve
 # :wrench: Installation
 ```bash
 conda env create -f environment.yaml
+conda activate vec2face
 ```
 
 # Download Model Weights
@@ -46,6 +47,10 @@ hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="weights/6DRepNet_300W_LP_
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="weights/arcface-r100-glint360k.pth", local_dir="./")
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="weights/magface-r100-glint360k.pth", local_dir="./")
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="weights/vec2face_generator.pth", local_dir="./")
+```
+or
+```commandline
+python download_arc2face_weights.py
 ```
 2) The weights of the FR models trained with HSFace (10k, 20k, 100k, 200k) can be downloaded using python:
 ```python
@@ -71,6 +76,18 @@ hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="hsfaces/hsface20k.lmdb", 
 ```
 
 # ⚡Image Generation
+## Generating with reference images
+Putting reference images in a folder or collecting image paths in a .txt file for preparation. Then run following code:
+```commandline
+python image_generation_with_reference.py \
+--image_file "path/of/the/image/file or folder" \
+--model_weights weights/vec2face_generator.pth \
+--batch_size 5 \
+--example 10 \
+--name images-of-references
+```
+
+## Generating with center/ID features
 Before generating images, the identity vectors need to be created/calculated and saved in a .npy file. We provide an example for you, but you can create your own center features.  
 ```python
 from huggingface_hub import hf_hub_download
