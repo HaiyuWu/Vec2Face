@@ -152,6 +152,53 @@ transform = transforms.Compose(
 ```
 Please follow the guidance of [SOTA-Face-Recognition-Train-and-Test](https://github.com/HaiyuWu/SOTA-Face-Recognition-Train-and-Test) for the rest of training process.
 
+## Performance
+
+### Datasets in 0.5M scale
+
+This table compares the existing synthetic dataset generation methods on five standard face recognition test sets. The model trained with HSFace10K has better performance on CALFW than that trained with real dataset.
+
+| Training sets        | # images |    LFW    | CFP-FP |   CPLFW   |   AgeDB   |   CALFW   |   Avg.    |
+| -------------------- | :------: | :-------: | :----: | :-------: | :-------: | :-------: | :-------: |
+| IDiff-Face           |   0.5M   |   98.00   | 85.47  |   80.45   |   86.43   |   90.65   |   88.20   |
+| DCFace               |   0.5M   |   98.55   | 85.33  |   82.62   |   89.70   |   91.60   |   89.56   |
+| Arc2Face             |   0.5M   |   98.81   | 91.87  |   85.16   |   90.18   |   92.63   |   91.73   |
+| DigiFace             |    1M    |   95.40   | 87.40  |   78.87   |   76.97   |   78.62   |   83.45   |
+| SynFace              |   0.5M   |   91.93   | 75.03  |   70.43   |   61.63   |   74.73   |   74.75   |
+| SFace                |   0.6M   |   91.87   | 73.86  |   73.20   |   71.68   |   77.93   |   77.71   |
+| IDnet                |   0.5M   |   92.58   | 75.40  |   74.25   |   63.88   |   79.90   |   79.13   |
+| ExFaceGAN            |   0.5M   |   93.50   | 73.84  |   71.60   |   78.92   |   82.98   |   80.17   |
+| SFace2               |   0.6M   |   95.60   | 77.11  |   74.60   |   77.37   |   83.40   |   81.62   |
+| Langevin-Disco       |   0.6M   |   96.60   | 73.89  |   74.77   |   80.70   |   87.77   |   82.75   |
+| **HSFace10K(Ours)**  |   0.5M   | **98.87** | 88.97  | **85.47** | **93.12** | **93.57** | **92.00** |
+| CASIA-WebFace (Real) |  0.49M   |   99.38   | 96.91  |   89.78   |   94.50   |   93.35   |   94.79   |
+
+###Dataset Scaling up to 300K identities and 15M images
+
+This is the uniqueness of the proposed Vec2Face, which can easily scale the dataset size up.
+
+| Datasets             | # images |  LFW  | CFP-FP | CPLFW | AgeDB |   CALFW   | Avg.  |
+| -------------------- | :------: | :---: | :----: | :---: | :---: | :-------: | :---: |
+| HSFace10K            |   0.5M   | 98.87 | 88.97  | 85.47 | 93.12 | **93.57** | 92.00 |
+| HSFace20K            |    1M    | 98.87 | 89.87  | 86.13 | 93.85 | **93.65** | 92.47 |
+| HSFace100K           |    5M    | 99.25 | 90.36  | 86.75 | 94.38 | **94.12** | 92.97 |
+| HSFace200K           |   10M    | 99.23 | 90.81  | 87.30 | 94.22 | **94.52** | 93.22 |
+| HSFace300K           |   15M    | 99.30 | 91.54  | 87.70 | 94.45 | **94.58** | 93.52 |
+| CASIA-WebFace (Real) |  0.49M   | 99.38 | 96.91  | 89.78 | 94.50 |   93.35   | 94.79 |
+
+### Other challenging test sets
+
+We test the model performance on other four datasets, Hadrian (facial hair), Eclipse (face exposure), SLLFW (similar-looking), and DoppelVer (doppelganger). 
+
+| Datasets             |  Hadrian  |  Eclipse  |   SLLFW   | DoppelVer |
+| -------------------- | :-------: | :-------: | :-------: | :-------: |
+| HSFace10K            |   69.47   |   64.55   |   92.87   |   86.91   |
+| HSFace20K            |   75.22   |   67.55   |   94.37   |   88.91   |
+| HSFace100K           | **80.00** | **70.35** |   95.58   |   90.39   |
+| HSFace200K           | **79.85** | **71.12** |   95.70   |   89.86   |
+| HSFace300K           | **81.55** | **71.35** |   95.95   |   90.49   |
+| CASIA-WebFace (Real) |   77.82   |   68.52   | **96.95** | **95.11** |
+
 ## TODO
 - [ ] 100k and 200k datasets
 
