@@ -25,12 +25,7 @@ This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/ve
 &emsp;✅ that first achieves higher accuracy than the same-scale real dataset (on CALFW)<br>
 &emsp;✅ that can easily scale the dataset size to 10M images from 200k identities<br>
 
-<div style="display: flex; justify-content: center;">
-  <video width="700" height="300" controls autoplay muted playsinline>
-    <source src="./asset/vector_visualization.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
+![My Animation](./asset/vector_visualization.gif)
 
 # News/Updates
 - [2024/09/05] 🔥 Our paper is on [Arxiv](https://arxiv.org/abs/2409.02979) now!
