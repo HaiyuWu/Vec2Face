@@ -73,6 +73,8 @@ from huggingface_hub import hf_hub_download
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="hsfaces/hsface10k.lmdb", local_dir="./")
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="hsfaces/hsface20k.lmdb", local_dir="./")
 ```
+# Model Architecture
+<img src='asset/architech.png'>
 
 # ⚡Image Generation
 ## Generating with reference images
@@ -117,8 +119,6 @@ python pose_image_generation.py \
 ```
 
 # Training
-
-<img src='asset/architech.png'>
 
 ## Vec2Face training
 We only provide the WebFace4M dataset (see [here](#download-datasets)) and the mask that we used for training the model, if you want to use other datasets, please referring the 
