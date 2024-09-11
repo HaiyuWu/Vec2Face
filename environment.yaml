@@ -19,3 +19,4 @@ dependencies:
     - sixdrepnet==0.1.6
     - tensorboard==2.13.0
     - timm==0.9.16
+    - huggingface-hub==0.24.6
