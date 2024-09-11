@@ -175,7 +175,7 @@ This table compares the existing synthetic dataset generation methods on five st
 | **HSFace10K(Ours)**  |   0.5M   | **98.87** | 88.97  | **85.47** | **93.12** | **93.57** | **92.00** |
 | CASIA-WebFace (Real) |  0.49M   |   99.38   | 96.91  |   89.78   |   94.50   |   93.35   |   94.79   |
 
-###Dataset Scaling up to 300K identities and 15M images
+### Dataset Scaling up to 300K identities and 15M images
 
 This is the uniqueness of the proposed Vec2Face, which can easily scale the dataset size up.
 
