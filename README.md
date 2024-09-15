@@ -28,6 +28,7 @@ This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/ve
 ![My Animation](./asset/vector_visualization.gif)
 
 # News/Updates
+- [2024/09/15] 🔥 The generated [HSFace datasets](#download-datasets) are available now!
 - [2024/09/05] 🔥 Our paper is on [Arxiv](https://arxiv.org/abs/2409.02979) now!
 - [2024/09/02] 🔥 We release Vec2Face [demo](https://huggingface.co/spaces/BooBooWu/Vec2Face)!
 - [2024/09/01] 🔥 We release Vec2Face and HSFace datasets!
@@ -67,7 +68,7 @@ from huggingface_hub import hf_hub_download
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="lmdb_dataset/WebFace4M/WebFace4M.lmdb", local_dir="./")
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="lmdb_dataset/WebFace4M/50000_ids_1022444_ims.npy", local_dir="./")
 ```
-The **generated synthetic datasets** HSFace300k can be downloaded [here](), HSFace10k and HSFace20k can be downloaded using python:
+The **generated synthetic datasets** HSFace300k can be downloaded [here](https://drive.google.com/file/d/12g2dgzFunnWecD8O3WGIH8UN0bhBt1DQ/view?usp=drive_link), HSFace10k and HSFace20k can be downloaded using python:
 ```python
 from huggingface_hub import hf_hub_download
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="HSFaces/hsface10k.lmdb", local_dir="./", repo_type="dataset")
@@ -214,9 +215,6 @@ We test the model performance on other four datasets, Hadrian (facial hair), Ecl
 | HSFace200K           | **79.85** | **71.12** |   95.70   |   89.86   |
 | HSFace300K           | **81.55** | **71.35** |   95.95   |   90.49   |
 | CASIA-WebFace (Real) |   77.82   |   68.52   | **96.95** | **95.11** |
-
-## TODO
-- [ ] 100k and 200k datasets
 
 # Acknowledgements
 - Thanks to the WebFace4M creators for providing such a high-quality facial dataset❤️.
