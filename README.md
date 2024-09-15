@@ -61,19 +61,30 @@ hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="fr_weights/hsface200k.pth
 ```
 
 # Download Datasets
-1) The dataset used for **Vec2Face training** can be downloaded from manually from  [HuggingFace](https://huggingface.co/BooBooWu/Vec2Face) or using python:
+The dataset used for **Vec2Face training** can be downloaded from manually from  [HuggingFace](https://huggingface.co/BooBooWu/Vec2Face) or using python:
 ```python
 from huggingface_hub import hf_hub_download
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="lmdb_dataset/WebFace4M/WebFace4M.lmdb", local_dir="./")
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="lmdb_dataset/WebFace4M/50000_ids_1022444_ims.npy", local_dir="./")
 ```
-2) The **generated synthetic datasets** (HSFace10k and HSFace20k for now) can be downloaded using python:
+The **generated synthetic datasets** HSFace300k can be downloaded [here](), HSFace10k and HSFace20k can be downloaded using python:
 ```python
 from huggingface_hub import hf_hub_download
-hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="hsfaces/hsface10k.lmdb", local_dir="./", repo_type="dataset")
-hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="hsfaces/hsface20k.lmdb", local_dir="./", repo_type="dataset")
+hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="HSFaces/hsface10k.lmdb", local_dir="./", repo_type="dataset")
+hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="HSFaces/hsface20k.lmdb", local_dir="./", repo_type="dataset")
+``` 
+
+For HSFace100k and HSFace200k, they are the first 100k and 200k folders in the HSFace300k. You can conveniently use the indices mask to train the model with either of them. The mask files can be downloaded using python:
+```python
+from huggingface_hub import hf_hub_download
+hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="HSFaces/hsface100k_mask.npy", local_dir="./", repo_type="dataset")
+hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="HSFaces/hsface200k_mask.npy", local_dir="./", repo_type="dataset")
 ```
-3) If you want to convert .lmdb to datasets (images), please refer to [lmdb2dataset.py](https://github.com/HaiyuWu/SOTA-Face-Recognition-Train-and-Test/blob/main/utils/lmdb2dataset.py). 
+and add another line in the config file for [FR model training](#fr-model-training):
+```python
+config.mask="./HSFaces/hsface100k_mask.npy"
+```
+Tip: If you want to convert .lmdb to datasets (images), please refer to [lmdb2dataset.py](https://github.com/HaiyuWu/SOTA-Face-Recognition-Train-and-Test/blob/main/utils/lmdb2dataset.py).
 # Model Architecture
 <img src='asset/architech.png'>
 
