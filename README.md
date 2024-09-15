@@ -70,9 +70,10 @@ hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="lmdb_dataset/WebFace4M/50
 2) The **generated synthetic datasets** (HSFace10k and HSFace20k for now) can be downloaded using python:
 ```python
 from huggingface_hub import hf_hub_download
-hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="hsfaces/hsface10k.lmdb", local_dir="./")
-hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="hsfaces/hsface20k.lmdb", local_dir="./")
+hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="hsfaces/hsface10k.lmdb", local_dir="./", repo_type="dataset")
+hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="hsfaces/hsface20k.lmdb", local_dir="./", repo_type="dataset")
 ```
+3) If you want to convert .lmdb to datasets (images), please refer to [lmdb2dataset.py](https://github.com/HaiyuWu/SOTA-Face-Recognition-Train-and-Test/blob/main/utils/lmdb2dataset.py). 
 # Model Architecture
 <img src='asset/architech.png'>
 
