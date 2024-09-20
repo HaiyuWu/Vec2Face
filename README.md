@@ -170,6 +170,34 @@ transform = transforms.Compose(
 ```
 Please follow the guidance of [SOTA-Face-Recognition-Train-and-Test](https://github.com/HaiyuWu/SOTA-Face-Recognition-Train-and-Test) for the rest of training process.
 
+Since some people requested for the config file to reproduce the performance, here is the example of training with HSFace10K:
+```python
+from easydict import EasyDict
+
+config = EasyDict()
+
+config.prefix = "arcface-r50-vec2face-hsface10k"
+config.head = "arcface"
+config.input_size = [112, 112]
+config.embedding_size = 512
+config.depth = "50"
+config.batch_size = 128
+config.weight_decay = 5e-4
+config.lr = 0.1
+config.momentum = 0.9
+config.epochs = 26
+config.margin = 0.5
+config.fp16 = True
+config.sample_rate = 1.0
+config.num_ims = 500000
+config.reduce_lr = [12, 20, 24]
+config.train_source = "./HSFaces/hsface10k.lmdb"
+config.val_list = ["lfw", "cfp_fp", "agedb_30", "calfw", "cplfw"]
+config.mask = None
+config.augment = True
+config.mode = "se"
+```
+
 ## Performance
 
 ### Datasets in 0.5M scale
