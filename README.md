@@ -138,7 +138,8 @@ python pose_image_generation.py \
 
 ## Vec2Face training
 We only provide the WebFace4M dataset (see [here](#download-datasets)) and the mask that we used for training the model, if you want to use other datasets, please referring the 
-[prepare_training_set.py](scripts/prepare_training_set.py) to convert the dataset to .lmdb.
+[prepare_training_set.py](scripts/prepare_training_set.py) to convert the dataset to .lmdb. Please refer to [issue #3](https://github.com/HaiyuWu/Vec2Face/issues/3) for details.
+
 Once the dataset is ready, modifying the following code to run the training:
 ```commandline
 torchrun --nproc_per_node=1 --node_rank=0 --master_addr="host_addr" --master_port=3333 vec2face.py \
