@@ -105,7 +105,7 @@ Note that, the input images should be cropped and aligned. If they are not, plea
 We don't suggest you to modify the code to use the embedding extracted from insightface, because it takes forever to run. (Trust me, I have tried.)
 
 ## Generating with center/ID features
-Before generating images, the identity vectors need to be created/calculated and saved in a .npy file. We provide an example for you, but you can create your own center features.  
+Before generating images, the identity vectors need to be created/calculated and saved in a .npy file. We provide an example for you, but you can create your own center features (see [issue #2](https://github.com/HaiyuWu/Vec2Face/issues/2)).  
 ```python
 from huggingface_hub import hf_hub_download
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="center_feature_examples.npy", local_dir="./")
