@@ -10,7 +10,7 @@
 <sup>2</sup>The Australian National University<br>
 <sup>3</sup>Indiana University South Bend
 
-[//]: # (TODO)
+
 <a href='https://haiyuwu.github.io/vec2face.github.io/'><img src='https://img.shields.io/badge/Project-Page-blue'></a>
 <a href='https://arxiv.org/abs/2409.02979'><img src='https://img.shields.io/badge/Paper-arXiv-red'></a>
 <a href='https://huggingface.co/BooBooWu/Vec2Face'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-orange'></a>
@@ -25,6 +25,7 @@ This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/ve
 &emsp;✅ that achieves state-of-the-art performance in five standard test sets among synthetic datasets<br>
 &emsp;✅ that first achieves higher accuracy than the same-scale real dataset (on CALFW)<br>
 &emsp;✅ that can easily scale the dataset size to 10M images from 200k identities<br>
+&emsp;**Please ⭐ if you find it is helpful**😄<br>
 
 ![My Animation](./asset/vector_visualization.gif)
 
@@ -251,7 +252,7 @@ We test the model performance on other four datasets, Hadrian (facial hair), Ecl
 - Thanks to [Hugging Face](https://huggingface.co/) for providing a handy dataset and model weight management platform❤️.
 
 # Citation
-If you find Vec2Face useful for your research, please consider citing us and starring😄:
+If you find Vec2Face useful for your research, please consider citing us😄:
 
 ```bibtex
 @article{wu2024vec2face,
