@@ -172,9 +172,11 @@ if __name__ == '__main__':
     print("start generating...")
     for i in tqdm(range(0, len(expanded_ids), args.batch_size)):
         im_features = samples[i: i + args.batch_size]
+
         # image, _ = model.gen_image(im_features, scorer, fr_model, class_rep=im_features,
-        #                            q_target=24)
-        _, _, image, *_ = model(im_features)
+        #                            q_target=27)
+
+        _, _, image, *_ = model(im_features)  # for faster processing, but no guarantee for quality
         save_images(((image.permute(0, 2, 3, 1).detach().cpu().numpy() + 1) / 2 * 255).clip(0, 255).astype(np.uint8),
                     im_ids[i: i + args.batch_size],
                     "generated_images_ref",
