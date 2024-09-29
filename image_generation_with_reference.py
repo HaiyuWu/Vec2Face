@@ -9,7 +9,23 @@ from glob import glob
 import os
 from models import iresnet
 from PIL import Image
+from torch.utils.data import Dataset, DataLoader
 
+
+class ImageDataset(Dataset):
+    def __init__(self, image_paths):
+        self.image_paths = image_paths
+
+    def __len__(self):
+        return len(self.image_paths)
+
+    def __getitem__(self, idx):
+        img_path = self.image_paths[idx]
+        img = Image.open(img_path).convert('RGB').resize((112, 112))
+        img = np.array(img).transpose((2, 0, 1))
+        img = torch.from_numpy(img).float()
+        img.div_(255).sub_(0.5).div_(0.5)
+        return img, img_path
 
 def get_args_parser():
     parser = argparse.ArgumentParser('Vec2Face verify', add_help=False)
@@ -90,17 +106,24 @@ def processing_images(file_path, feature_model):
         ref_images = np.genfromtxt(file_path, str)
     else:
         raise AttributeError("Please give either a folder path of images or a file path of images.")
-    im_ids = []
+    dataset = ImageDataset(ref_images)
+
+    dataloader = DataLoader(dataset, batch_size=batch_size, num_workers=4, pin_memory=True)
+
+    feature_model = feature_model.to(device)
+    feature_model.eval()
+
     features = []
-    for ref_image in tqdm(ref_images, desc="Loading images"):
-        img = np.array(Image.open(ref_image).resize((112,112)))
-        img = np.transpose(img, (2, 0, 1))
-        img = torch.from_numpy(img).unsqueeze(0).float().to(device)
-        img.div_(255).sub_(0.5).div_(0.5)
-        feature = feature_model(img).clone().detach().cpu().numpy()
-        features.append(feature)
-        im_ids.append(ref_image.split("/")[-1][:-4])
-    features = torch.tensor(np.vstack(features)).to(torch.float32)
+    im_ids = []
+
+    with torch.no_grad():
+        for batch, paths in tqdm(dataloader, desc="Processing images"):
+            batch = batch.to(device)
+            batch_features = feature_model(batch)
+            features.append(batch_features.cpu())
+            im_ids.extend([path.split("/")[-1][:-4] for path in paths])
+
+    features = torch.cat(features, dim=0)
     return features, im_ids
 
 
@@ -149,8 +172,9 @@ if __name__ == '__main__':
     print("start generating...")
     for i in tqdm(range(0, len(expanded_ids), args.batch_size)):
         im_features = samples[i: i + args.batch_size]
-        image, _ = model.gen_image(im_features, scorer, fr_model, class_rep=im_features,
-                                   q_target=24)
+        # image, _ = model.gen_image(im_features, scorer, fr_model, class_rep=im_features,
+        #                            q_target=24)
+        _, _, image, *_ = model(im_features)
         save_images(((image.permute(0, 2, 3, 1).detach().cpu().numpy() + 1) / 2 * 255).clip(0, 255).astype(np.uint8),
                     im_ids[i: i + args.batch_size],
                     "generated_images_ref",
