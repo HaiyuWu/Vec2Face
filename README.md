@@ -70,7 +70,7 @@ from huggingface_hub import hf_hub_download
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="lmdb_dataset/WebFace4M/WebFace4M.lmdb", local_dir="./")
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="lmdb_dataset/WebFace4M/50000_ids_1022444_ims.npy", local_dir="./")
 ```
-The **generated synthetic datasets** HSFace300k can be downloaded [here](https://drive.google.com/file/d/12g2dgzFunnWecD8O3WGIH8UN0bhBt1DQ/view?usp=drive_link), HSFace10k and HSFace20k can be downloaded using python:
+The **generated synthetic datasets** HSFace300k can be downloaded at [Gdrive](https://drive.google.com/file/d/12g2dgzFunnWecD8O3WGIH8UN0bhBt1DQ/view?usp=drive_link) and [百度云](https://pan.baidu.com/s/1UplYNlDo_K33lfcVaQ2-xg) (code:vc2f), HSFace10k and HSFace20k can be downloaded using python:
 ```python
 from huggingface_hub import hf_hub_download
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="HSFaces/hsface10k.lmdb", local_dir="./", repo_type="dataset")
