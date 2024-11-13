@@ -141,17 +141,32 @@ python pose_image_generation.py \
 We only provide the WebFace4M dataset (see [here](#download-datasets)) and the mask that we used for training the model, if you want to use other datasets, please referring the 
 [prepare_training_set.py](scripts/prepare_training_set.py) to convert the dataset to .lmdb. Please refer to [issue #3](https://github.com/HaiyuWu/Vec2Face/issues/3) for details.
 
-Once the dataset is ready, modifying the following code to run the training:
+Once the dataset is ready, modifying the following code to run the multi-node distributed training:
 ```commandline
-torchrun --nproc_per_node=1 --node_rank=0 --master_addr="host_addr" --master_port=3333 vec2face.py \
+torchrun --nproc_per_node=4 --node_rank=0 --master_addr="host_addr" --master_port=3333 vec2face.py \
 --rep_drop_prob 0.1 \
 --use_rep \
---batch_size 8 \
+--batch_size 32 \
 --model vec2face_vit_base_patch16 \
---epochs 2000 \
+--epochs 800 \
 --warmup_epochs 5 \
 --blr 4e-5 \
---output_dir workspace/pixel_generator/24_try \
+--output_dir workspace/pixel_generator/ \
+--train_source ./lmdb_dataset/WebFace4M/WebFace4M.lmdb \
+--mask lmdb_dataset/WebFace4M/50000_ids_1022444_ims.npy \
+--accum_iter 1
+```
+If training on one node, run with the following command:
+```commandline
+torchrun --nproc_per_node=4 vec2face.py \
+--rep_drop_prob 0.1 \
+--use_rep \
+--batch_size 32 \
+--model vec2face_vit_base_patch16 \
+--epochs 800 \
+--warmup_epochs 5 \
+--blr 4e-5 \
+--output_dir workspace/pixel_generator/ \
 --train_source ./lmdb_dataset/WebFace4M/WebFace4M.lmdb \
 --mask lmdb_dataset/WebFace4M/50000_ids_1022444_ims.npy \
 --accum_iter 1
