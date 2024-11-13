@@ -250,6 +250,7 @@ We test the model performance on other four datasets, Hadrian (facial hair), Ecl
 # Acknowledgements
 - Thanks to the WebFace4M creators for providing such a high-quality facial dataset❤️.
 - Thanks to [Hugging Face](https://huggingface.co/) for providing a handy dataset and model weight management platform❤️.
+- Thanks to [JiaquanYe](https://github.com/JiaquanYe) for helping the training stability❤️.
 
 # Citation
 If you find Vec2Face useful for your research, please consider citing us😄:
