@@ -254,7 +254,7 @@ class NativeScalerWithGradNormCount:
     state_dict_key = "amp_scaler"
 
     def __init__(self):
-        self._scaler = torch.cuda.amp.GradScaler(growth_interval=50)
+        self._scaler = torch.cuda.amp.GradScaler(growth_interval=2000)
 
     def __call__(self, ae_loss, d_loss, optimizer, dis_optimizer,
                  clip_grad=None, ae_parameters=None, d_parameters=None, update_grad=True):
@@ -263,11 +263,17 @@ class NativeScalerWithGradNormCount:
         if update_grad:
             self._scaler.unscale_(dis_optimizer)
             self._scaler.unscale_(optimizer)  # unscale the gradients of optimizer's assigned params in-place
+            d_norm = get_grad_norm_(d_parameters)
+            ae_norm = get_grad_norm_(ae_parameters)
             torch.nn.utils.clip_grad_norm_(d_parameters, clip_grad)
             torch.nn.utils.clip_grad_norm_(ae_parameters, clip_grad)
             self._scaler.step(dis_optimizer)
             self._scaler.step(optimizer)
             self._scaler.update()
+        else:
+            d_norm = get_grad_norm_(d_parameters)
+            ae_norm = get_grad_norm_(ae_parameters)
+        return ae_norm, d_norm
 
     def state_dict(self):
         return self._scaler.state_dict()

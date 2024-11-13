@@ -24,7 +24,7 @@ torch.autograd.set_detect_anomaly(True)
 def get_args_parser():
     parser = argparse.ArgumentParser('vec2face training', add_help=False)
     parser.add_argument('--batch_size', default=64, type=int,
-                        help='Batch size per GPU (effective batch size is batch_size * accum_iter * # gpus')
+                        help='Batch size per GPU (effective batch size is  batch_size * accum_iter * # gpus')
     parser.add_argument('--epochs', default=400, type=int)
     parser.add_argument('--accum_iter', default=1, type=int,
                         help='Accumulate gradient iterations (for increasing the effective batch size under memory constraints)')
@@ -53,6 +53,8 @@ def get_args_parser():
                         help='Mask ratio distribution peak')
     parser.add_argument('--mask_ratio_std', type=float, default=0.25,
                         help='Mask ratio distribution std')
+    parser.add_argument('--clip_grad', type=float, default=2.0,
+                        help='Gradient clip')
 
     # Optimizer parameters
     parser.add_argument('--lr', type=float, default=None, metavar='LR',
@@ -88,9 +90,12 @@ def get_args_parser():
     parser.add_argument('--pin_memory', action='store_false',
                         help='Pin CPU memory in DataLoader for more efficient (sometimes) transfer to GPU.')
     parser.add_argument('--no_pin_mem', action='store_false', dest='pin_mem')
+
     # parser.set_defaults(pin_mem=True)
 
     # distributed training parameters
+    parser.add_argument('--use_amp', action="store_false")
+    parser.add_argument('--amp_dtype', type=lambda x: getattr(torch, x), default='float16')
     parser.add_argument('--world_size', default=1, type=int,
                         help='number of distributed processes')
     parser.add_argument('--local_rank', default=-1, type=int)
@@ -161,7 +166,7 @@ def main(args):
                                                 rep_dim=args.rep_dim,
                                                 rep_drop_prob=args.rep_drop_prob,
                                                 use_class_label=args.use_class_label)
-    loss = VQLPIPSWithDiscriminator(disc_start=1000, disc_weight=0.8)
+    loss = VQLPIPSWithDiscriminator(disc_start=100, disc_weight=0.8, use_amp=args.use_amp)
     disc = Discriminator(dims=(64, 128, 256, 512))
 
     model.to(device)
@@ -187,7 +192,7 @@ def main(args):
 
         disc = torch.nn.parallel.DistributedDataParallel(disc,
                                                          device_ids=[args.gpu],
-                                                         find_unused_parameters=True)
+                                                         find_unused_parameters=False)
         disc_without_ddp = disc.module
 
     # Log parameters

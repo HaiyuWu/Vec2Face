@@ -31,9 +31,10 @@ class LPIPS(nn.Module):
         outs0, outs1 = self.net(in0_input), self.net(in1_input)
         feats0, feats1, diffs = {}, {}, {}
         # lin4 causes nan value in the forward process.
-        chns_num = len(self.chns) - 1
-        # lins = [self.lin0, self.lin1, self.lin2, self.lin3, self.lin4]
-        lins = [self.lin0, self.lin1, self.lin2, self.lin3]
+        # chns_num = len(self.chns) - 1
+        # lins = [self.lin0, self.lin1, self.lin2, self.lin3]
+        chns_num = len(self.chns)
+        lins = [self.lin0, self.lin1, self.lin2, self.lin3, self.lin4]
         for kk in range(chns_num):
             feats0[kk], feats1[kk] = normalize_tensor(outs0[kk]), normalize_tensor(outs1[kk])
             diffs[kk] = (feats0[kk] - feats1[kk]) ** 2
@@ -105,7 +106,8 @@ class vgg16(torch.nn.Module):
 
 
 def normalize_tensor(x):
-    norm = torch.norm(x, 2, 1, True)
+    # for numerical stability
+    norm = torch.norm(x, 2, 1, True).clamp(min=1e-6)
     output = torch.div(x, norm)
     return output
 
