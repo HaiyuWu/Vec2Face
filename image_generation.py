@@ -110,10 +110,6 @@ if __name__ == '__main__':
     model.load_state_dict(checkpoint['model_vec2face'])
     model.eval()
 
-    if args.start_end is not None:
-        start, end = args.start_end.split(":")
-        assert int(end) > int(start)
-
     print("Loading estimators...")
     # quality model
     scorer = _create_fr_model().to(device)
@@ -123,6 +119,12 @@ if __name__ == '__main__':
     bs_factor = 1
     print(f"Use ID vectors from: {center_feature_file}")
     random_ids = easy_to_generate_id(center_feature_file)
+
+    if args.start_end is not None:
+        start, end = args.start_end.split(":")
+        assert int(end) > int(start)
+    else:
+        start, end = 0, len(random_ids)
 
     random_ids = torch.tensor(random_ids)[int(start):int(end)].to(torch.float32)
     raw_cls_label = torch.arange(0, random_ids.shape[0])

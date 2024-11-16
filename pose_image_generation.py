@@ -122,10 +122,6 @@ if __name__ == '__main__':
     model.load_state_dict(checkpoint['model_vec2face'])
     model.eval()
 
-    if args.start_end is not None:
-        start, end = args.start_end.split(":")
-        assert int(end) > int(start)
-
     print("Loading estimators...")
     # quality model
     scorer = _create_fr_model().to(device)
@@ -146,6 +142,12 @@ if __name__ == '__main__':
     id_pool = []
     bs_factor = 1
     random_ids = easy_to_generate_id(center_feature_file)
+
+    if args.start_end is not None:
+        start, end = args.start_end.split(":")
+        assert int(end) > int(start)
+    else:
+        start, end = 0, len(random_ids)
     raw_cls_label = torch.arange(0, random_ids.shape[0])[int(start):int(end)] + start_class_id
 
     class_label = torch.repeat_interleave(raw_cls_label, example, dim=0)
