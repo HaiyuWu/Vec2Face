@@ -41,7 +41,7 @@ conda env create -f environment.yaml
 conda activate vec2face
 ```
 
-# Download Model Weights
+# Download model weights
 1) The weights of the Vec2Face model and estimators used in this work can be manually from [HuggingFace](https://huggingface.co/BooBooWu/Vec2Face) or using python:
 ```python
 from huggingface_hub import hf_hub_download
@@ -63,7 +63,7 @@ hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="fr_weights/hsface100k.pth
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="fr_weights/hsface200k.pth", local_dir="./")
 ```
 
-# Download Datasets
+# Download datasets
 The dataset used for **Vec2Face training** can be downloaded from manually from  [HuggingFace](https://huggingface.co/BooBooWu/Vec2Face) or using python:
 ```python
 from huggingface_hub import hf_hub_download
@@ -91,7 +91,7 @@ Tip: If you want to convert .lmdb to datasets (images), please refer to [lmdb2da
 # Model Architecture
 <img src='asset/architech.png'>
 
-# ⚡Image Generation
+# ⚡Image generation
 ## Generating with reference images
 Putting reference images in a folder or collecting image paths in a .txt file for preparation. Then run following code:
 ```commandline
@@ -236,7 +236,7 @@ This table compares the existing synthetic dataset generation methods on five st
 | **HSFace10K(Ours)**  |   0.5M   | **98.87** | 88.97  | **85.47** | **93.12** | **93.57** | **92.00** |
 | CASIA-WebFace (Real) |  0.49M   |   99.38   | 96.91  |   89.78   |   94.50   |   93.35   |   94.79   |
 
-### Dataset Scaling up to 300K identities and 15M images
+### Dataset scaling up to 300K identities and 15M images
 
 This is the uniqueness of the proposed Vec2Face, which can easily scale the dataset size up.
 
