@@ -52,7 +52,7 @@ hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="weights/vec2face_generato
 ```
 or
 ```commandline
-python download_arc2face_weights.py
+python download_vec2face_weights.py
 ```
 2) The weights of the FR models trained with HSFace (10k, 20k, 100k, 200k) can be downloaded using python:
 ```python
