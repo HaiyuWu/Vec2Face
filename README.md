@@ -30,6 +30,7 @@ This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/ve
 ![My Animation](./asset/vector_visualization.gif)
 
 # News/Updates
+- [2025/01/22] 🔥 **It is accepted at ICLR2025!**
 - [2024/09/15] 🔥 The generated [HSFace datasets](#download-datasets) are available now!
 - [2024/09/05] 🔥 Our paper is on [Arxiv](https://arxiv.org/abs/2409.02979) now!
 - [2024/09/02] 🔥 We release Vec2Face [demo](https://huggingface.co/spaces/BooBooWu/Vec2Face)!
