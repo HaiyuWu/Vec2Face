@@ -1,6 +1,6 @@
 <div align="center">
 
-# VEC2FACE: SCALING FACE DATASET GENERATION
+# Vec2Face: Scaling Face Dataset Generation with Loosely Constrained Vectors
 
 [Haiyu Wu](https://haiyuwu.netlify.app/)<sup>1</sup> &emsp; [Jaskirat Singh](https://1jsingh.github.io/)<sup>2</sup> &emsp; [Sicong Tian](https://github.com/sicongT)<sup>3</sup>   
 
@@ -275,7 +275,7 @@ If you find Vec2Face useful for your research, please consider citing us😄:
 @article{wu2024vec2face,
   title={Vec2Face: Scaling Face Dataset Generation with Loosely Constrained Vectors},
   author={Wu, Haiyu and Singh, Jaskirat and Tian, Sicong and Zheng, Liang and Bowyer, Kevin W.},
-  journal={arXiv preprint arXiv:2409.02979},
-  year={2024}
+  journal={ICLR},
+  year={2025}
 }
 ```
