@@ -107,7 +107,7 @@ class vgg16(torch.nn.Module):
 
 def normalize_tensor(x):
     # for numerical stability
-    norm = torch.norm(x, 2, 1, True).clamp(min=1e-6)
+    norm = torch.norm(x, 2, 1, True).clamp(min=1e-4)
     output = torch.div(x, norm)
     return output
 
