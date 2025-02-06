@@ -26,6 +26,7 @@ def get_args_parser():
     parser.add_argument('--batch_size', default=64, type=int,
                         help='Batch size per GPU (effective batch size is  batch_size * accum_iter * # gpus')
     parser.add_argument('--epochs', default=400, type=int)
+    parser.add_argument('--disc_start', default=100, type=int)
     parser.add_argument('--accum_iter', default=1, type=int,
                         help='Accumulate gradient iterations (for increasing the effective batch size under memory constraints)')
 
@@ -166,7 +167,7 @@ def main(args):
                                                 rep_dim=args.rep_dim,
                                                 rep_drop_prob=args.rep_drop_prob,
                                                 use_class_label=args.use_class_label)
-    loss = VQLPIPSWithDiscriminator(disc_start=100, disc_weight=0.8, use_amp=args.use_amp)
+    loss = VQLPIPSWithDiscriminator(disc_start=args.disc_start, disc_weight=0.8, use_amp=args.use_amp)
     disc = Discriminator(dims=(64, 128, 256, 512))
 
     model.to(device)

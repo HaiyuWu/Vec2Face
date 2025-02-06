@@ -149,7 +149,8 @@ torchrun --nproc_per_node=4 --node_rank=0 --master_addr="host_addr" --master_por
 --use_rep \
 --batch_size 32 \
 --model vec2face_vit_base_patch16 \
---epochs 800 \
+--epochs 100 \
+--disc_start 80 \
 --warmup_epochs 5 \
 --blr 4e-5 \
 --output_dir workspace/pixel_generator/ \
@@ -164,7 +165,8 @@ torchrun --nproc_per_node=4 vec2face.py \
 --use_rep \
 --batch_size 32 \
 --model vec2face_vit_base_patch16 \
---epochs 800 \
+--epochs 100 \
+--disc_start 80 \
 --warmup_epochs 5 \
 --blr 4e-5 \
 --output_dir workspace/pixel_generator/ \
