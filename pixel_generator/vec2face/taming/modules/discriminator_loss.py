@@ -108,8 +108,8 @@ class VQLPIPSWithDiscriminator(nn.Module):
             token_loss = torch.abs((logits[:, 1:, :] - gt_indices[:, 1:, :])) * mask[:, 1:, None]
             token_loss = token_loss.sum() / mask[:, 1:].sum()
 
-        nll_loss = torch.mean(rec_loss + p_loss) + \
-                   ssim_loss + \
+        nll_loss = torch.mean(rec_loss + 0.1 * p_loss) + \
+                   0.2 * ssim_loss + \
                    token_loss + feature_loss + emb_loss
         # generator update
         g_loss = -torch.mean(logits_fake)
