@@ -23,7 +23,7 @@ This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/ve
 
 &emsp;✅ that generates face images purely based on the given image features<br>
 &emsp;✅ that achieves state-of-the-art performance in five standard test sets among synthetic datasets<br>
-&emsp;✅ that first achieves higher accuracy than the same-scale real dataset (on CALFW)<br>
+&emsp;✅ that first achieves higher accuracy than the same-scale real dataset (on **CALFW, IJBB, and IJBC**)<br>
 &emsp;✅ that can easily scale the dataset size to 10M images from 200k identities<br>
 &emsp;**Please ⭐ if you find it is helpful**😄<br>
 
@@ -139,6 +139,7 @@ python pose_image_generation.py \
 # Training
 
 ## Vec2Face training
+### Attention!: Different from the reporting training time in the original paper, we have optimized the coding for faster and more stable model training. Thus, the following configurations should be good enough to achieve a good result.
 We only provide the WebFace4M dataset (see [here](#download-datasets)) and the mask that we used for training the model, if you want to use other datasets, please referring the 
 [prepare_training_set.py](scripts/prepare_training_set.py) to convert the dataset to .lmdb. Please refer to [issue #3](https://github.com/HaiyuWu/Vec2Face/issues/3) for details.
 
