@@ -276,9 +276,9 @@ If you find Vec2Face useful for your research, please consider citing us😄:
 
 ```bibtex
 @article{wu2024vec2face,
-  title={Vec2Face: Scaling Face Dataset Generation with Loosely Constrained Vectors},
-  author={Wu, Haiyu and Singh, Jaskirat and Tian, Sicong and Zheng, Liang and Bowyer, Kevin W.},
-  journal={ICLR},
-  year={2025}
+  title={Vec2Face: Scaling face dataset generation with loosely constrained vectors},
+  author={Wu, Haiyu and Singh, Jaskirat and Tian, Sicong and Zheng, Liang and Bowyer, Kevin W},
+  journal={arXiv preprint arXiv:2409.02979},
+  year={2024}
 }
 ```
