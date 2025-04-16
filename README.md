@@ -30,6 +30,7 @@ This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/ve
 ![My Animation](./asset/vector_visualization.gif)
 
 # News/Updates
+- [2025/04/15] 🔧 **We fixed the mistake of uploading the older datasets, which has identity leakage.**
 - [2025/01/22] 🔥 **It is accepted at ICLR2025!**
 - [2024/09/15] 🔥 The generated [HSFace datasets](#download-datasets) are available now!
 - [2024/09/05] 🔥 Our paper is on [Arxiv](https://arxiv.org/abs/2409.02979) now!
@@ -71,7 +72,7 @@ from huggingface_hub import hf_hub_download
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="lmdb_dataset/WebFace4M/WebFace4M.lmdb", local_dir="./")
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="lmdb_dataset/WebFace4M/50000_ids_1022444_ims.npy", local_dir="./")
 ```
-The **generated synthetic datasets** HSFace300k can be downloaded at [Gdrive](https://drive.google.com/file/d/12g2dgzFunnWecD8O3WGIH8UN0bhBt1DQ/view?usp=drive_link) and [百度云](https://pan.baidu.com/s/1UplYNlDo_K33lfcVaQ2-xg) (code:vc2f), HSFace10k and HSFace20k can be downloaded using python:
+The **generated synthetic datasets** HSFace300k can be downloaded at [Gdrive](https://drive.google.com/file/d/1djmxmrG8FfoGdJ-AlS46_S-lTqweQ3wp/view?usp=sharing) and [百度云](https://pan.baidu.com/s/1UplYNlDo_K33lfcVaQ2-xg) (code:vc2f), HSFace10k and HSFace20k can be downloaded using python:
 ```python
 from huggingface_hub import hf_hub_download
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="HSFaces/hsface10k.lmdb", local_dir="./", repo_type="dataset")
