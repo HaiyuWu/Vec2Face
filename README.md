@@ -63,6 +63,7 @@ hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="fr_weights/hsface10k.pth"
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="fr_weights/hsface20k.pth", local_dir="./")
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="fr_weights/hsface100k.pth", local_dir="./")
 hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="fr_weights/hsface200k.pth", local_dir="./")
+hf_hub_download(repo_id="BooBooWu/Vec2Face", filename="fr_weights/hsface300k.pth", local_dir="./")
 ```
 
 # Download datasets
