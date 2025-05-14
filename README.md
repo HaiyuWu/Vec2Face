@@ -27,11 +27,11 @@ This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/ve
 &emsp;✅ that can easily scale the dataset size to 10M images from 200k identities<br>
 &emsp;**If you find Vec2Face useful for your research, please give a ⭐ and consider citing us 😄**<br>
 ```bibtex
-@article{wu2024vec2face,
+@article{wu2025vec2face,
   title={Vec2Face: Scaling face dataset generation with loosely constrained vectors},
   author={Wu, Haiyu and Singh, Jaskirat and Tian, Sicong and Zheng, Liang and Bowyer, Kevin W},
   journal={ICLR},
-  year={20256}
+  year={2025}
 }
 ```
 
