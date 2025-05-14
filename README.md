@@ -25,7 +25,15 @@ This is the official implementation of **[Vec2Face](https://haiyuwu.github.io/ve
 &emsp;✅ that achieves state-of-the-art performance in five standard test sets among synthetic datasets<br>
 &emsp;✅ that first achieves higher accuracy than the same-scale real dataset (on **CALFW, IJBB, and IJBC**)<br>
 &emsp;✅ that can easily scale the dataset size to 10M images from 200k identities<br>
-&emsp;**Please ⭐ if you find it is helpful**😄<br>
+&emsp;**If you find Vec2Face useful for your research, please give a ⭐ and consider citing us 😄**<br>
+```bibtex
+@article{wu2024vec2face,
+  title={Vec2Face: Scaling face dataset generation with loosely constrained vectors},
+  author={Wu, Haiyu and Singh, Jaskirat and Tian, Sicong and Zheng, Liang and Bowyer, Kevin W},
+  journal={ICLR},
+  year={20256}
+}
+```
 
 ![My Animation](./asset/vector_visualization.gif)
 
@@ -272,15 +280,3 @@ We test the model performance on other four datasets, Hadrian (facial hair), Ecl
 - Thanks to the WebFace4M creators for providing such a high-quality facial dataset❤️.
 - Thanks to [Hugging Face](https://huggingface.co/) for providing a handy dataset and model weight management platform❤️.
 - Thanks to [JiaquanYe](https://github.com/JiaquanYe) for helping the training stability❤️.
-
-# Citation
-If you find Vec2Face useful for your research, please consider citing us😄:
-
-```bibtex
-@article{wu2024vec2face,
-  title={Vec2Face: Scaling face dataset generation with loosely constrained vectors},
-  author={Wu, Haiyu and Singh, Jaskirat and Tian, Sicong and Zheng, Liang and Bowyer, Kevin W},
-  journal={arXiv preprint arXiv:2409.02979},
-  year={2024}
-}
-```
